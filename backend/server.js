@@ -1,17 +1,22 @@
-const express = require('express')
-const path = require('path') //importálás, ezzel tudunk a file-rendszerünkben mozogni.
-const app = express()
-const port = 9000
+const express = require('express') //1. IMPORTUNK : require megkeresi a zárójelben lévő paramétert és beimportálja nekünk az expresst magát, kimentettük egy változóba
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(`${__dirname}/../frontend/index.html`))
+const path = require('path') //6. importálás, ezzel tudunk a file-rendszerünkben mozogni.
+
+const app = express() // 2. létrehoztunk egy újabb változót, a szervert ezzel az app névvel tudjuk megszólítani, ebben a változóban futtatjuk le a szervert.
+
+const port = 9000 // 3. létrehozott egy változót, aminek a száma egy négyjegyű változó, ami egy port. (3000-t átírtuk 9000-re,mert ezt használtuk server-template-re)
+
+app.get('/', (req, res) => { //5. ha vki küld egy get http-requestet (ez a '/'), ha feltárcsázzuk a http://127.0.0.1:9000-t és a cím végén van ez a perjel, csak a böngésző levágja, ez az alap elérési útvonalunk, akkor ez egy END POINT. (az aloldalak is ilyen end pointok.)
+  res.sendFile(path.join(`${__dirname}/../frontend/index.html`)) //7. path itt az útvonal, amit fenn már létrehoztunk, mint változót. A path.join után a zárójeben tulajdonképpeni célfájlot jelenítjük meg. A dirname azt adja vissza, ahol a fájlunk van, a szülőmappát (ez mindenkinél más, nálam most horsidezso@admin-MBP-2 w10-practice). Majd kimegyünk a mappából: /../, bemegyünk a frontendbe: frontend/index.html.
 })
 
-app.use('/public', express.static(`${__dirname}/../frontend/public`))
+app.use('/public', express.static(`${__dirname}/../frontend/public`)) //8. csináltunk egy nyilvános mappát a frontenden belül, majd ezt a mappát tesszük nyilvánossá, mindent, amit ebbe a mappába tettünk, az nyilvános lesz.
 
-app.listen(port, () => {
-  console.log(`http://127.0.0.1:${port}`)
+app.listen(port, () => { //EZ KELL LEGYEN MINDIG A LEGUTOLSÓ A KÓDSORBAN. ez figyelje azt a portot, azt a portszámot, amit megadtunk a kódunk legelején, majd kapunk egy callback functiont (), ami
+  console.log(`http://127.0.0.1:${port}`) //elvégzi azt, amit megadtunk neki, mikor elindul ez a sor kód. (egyelőre kiírja a konzolba ezt a szöveget)
 })
+
+//4. elindítjuk a szervert a terminalban (csekk először, hogy a backend mappában vagyunk, ls, cd backend ha kell, majd npm start és elindul a szerver)
 
 
 
